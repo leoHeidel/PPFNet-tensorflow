@@ -69,4 +69,4 @@ def sample_points(path, nb=50000):
     points = sample_on_triangles(basis)
     
     normals = get_normals(basis)
-    return points, normals
+    return points.astype(np.float32), normals.astype(np.float32)
