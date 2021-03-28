@@ -36,7 +36,7 @@ class PPFPatchExtractor:
         patches = points[indexes]
         centers_normals = normals[centers_idx]
         patches_normals = normals[indexes]
-        return centers, centers_normals, patches, patches_normals
+        return centers, centers_normals, patches, patches_normals, centers_idx
 
     def compute_ppf(self, centers, centers_normals, patches, patches_normals):
         centers = centers[:,np.newaxis,:]
@@ -60,12 +60,14 @@ class PPFPatchExtractor:
         #print(np.sum(np.sqrt(dist)*(1-M)) / np.sum(1-M)) # estimateing theta
         return M
     
-    def make_example(self, cloud):
+    def make_example(self, cloud, return_centers_idx=False):
         """
         Transform point cloud with normals into PPF.
         """
-        centers, centers_normals, patches, patches_normals =  self.make_patches(cloud)
+        centers, centers_normals, patches, patches_normals, centers_idx =  self.make_patches(cloud)
         ppf = self.compute_ppf(centers, centers_normals, patches, patches_normals)
         M = self.compute_M(centers)
+        if return_centers_idx:
+            return ppf.astype(np.float32), M.astype(np.float32), centers_idx.astype(np.int32)
         return ppf.astype(np.float32), M.astype(np.float32)
     

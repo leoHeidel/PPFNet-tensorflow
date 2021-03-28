@@ -213,3 +213,4 @@ dmypy.json
 # End of https://www.toptal.com/developers/gitignore/api/macos,linux,jupyternotebooks,python,visualstudiocode
 data/
 output/
+models/
