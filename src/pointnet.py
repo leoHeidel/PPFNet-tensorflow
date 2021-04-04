@@ -3,7 +3,7 @@ import tensorflow.keras as keras
 
 class PPFNet:
     def make_model(self):
-        inputs = keras.Input(shape=(None,None,10)) # (batch, patches, points_per_patches, ppf_features)
+        inputs = keras.Input(shape=self.input_shape) # (batch, patches, points_per_patches, ppf_features)
         x = inputs 
         
         #Patch pointNet
@@ -44,10 +44,11 @@ class PPFNet:
                  mlp_units=[64,64], 
                  global_units=[],
                  use_batch_norm=True,
+                 input_shape = (None, None,10)
                 ):
         self.point_net_units = point_net_units
         self.mlp_units = mlp_units
         self.global_units = global_units
         self.use_batch_norm = use_batch_norm
-        
+        self.input_shape = input_shape
         self.model = self.make_model()

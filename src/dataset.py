@@ -60,6 +60,12 @@ class PPFPatchExtractor:
         #print(np.sum(np.sqrt(dist)*(1-M)) / np.sum(1-M)) # estimateing theta
         return M
     
+    def compute_M_pair(self, centers_a, centers_b):
+        diff = centers_a[:, np.newaxis] - centers_b[np.newaxis]
+        dist = np.sum(diff*diff, axis=-1)
+        M = dist < self.tau*self.tau
+        return M
+    
     def make_example(self, cloud, return_centers_idx=False):
         """
         Transform point cloud with normals into PPF.
@@ -70,4 +76,20 @@ class PPFPatchExtractor:
         if return_centers_idx:
             return ppf.astype(np.float32), M.astype(np.float32), centers_idx.astype(np.int32)
         return ppf.astype(np.float32), M.astype(np.float32)
+    
+    def extract_pair(self, cloud_a, cloud_b, return_centers_idx=False):
+        """
+        Make training example from a pair of intersecting point cloud
+        """
+        extracted_a = self.make_patches(cloud_a)
+        extracted_b = self.make_patches(cloud_b)
+        ppf_a = self.compute_ppf(*extracted_a[:-1]).astype(np.float32)
+        ppf_b = self.compute_ppf(*extracted_b[:-1]).astype(np.float32)
+        M = self.compute_M_pair(extracted_a[0], extracted_b[0]).astype(np.float32)
+        ppf = np.stack([ppf_a, ppf_b], axis=0)
+        if return_centers_idx:
+            centers_idx = np.stack([extracted_a[-1], extracted_b[-1]], axis=0).astype(np.int32)
+            return ppf, M, centers_idx
+        return ppf, M
+
     

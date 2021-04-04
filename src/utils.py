@@ -16,7 +16,7 @@ def export_ply(file_name, vertices, normals=None, scalar=None):
     if normals is not None: 
         normals = PlyElement.describe(format_np_array(normals), 'normals')
         elements.append(normals)
-    if normals is not None: 
+    if scalar is not None: 
         scalar = PlyElement.describe(format_np_array_scalar(scalar), 'scalar')
         elements.append(scalar)
     
