@@ -12,6 +12,13 @@ Unoficial implementation of PFFNet for pointcloud class.
   - loss.py : implementation of the N-tuple loss.
   - pointnet.py : pointnet of the PPFNet model. 
 
+Notbooks:
+- dataset-visualization.ipynb : Visualize the dataset, testing that it is well constructed
+- dataset.ipynb : preprocess the pairs of the SUN3D dataset and test the speed of the shapenet dataset
+- main-shapenet.ipynb : train PPFNet on shapenet
+- main.ipynb : train PPFNet on SUN3D
+- model-visualization.ipynb : Visualize the result of the trained models
+
 ## Dataset used:
 
 - [shapenet](https://shapenet.org/) 
